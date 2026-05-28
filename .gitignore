@@ -6,10 +6,9 @@ dist/
 *.local
 *.tsbuildinfo
 
-# Capacitor native platforms (generated via `npx cap add android|ios`)
-# Keep them out of the JS repo; the wrapper tool / EAS regenerates them.
-/android/
-/ios/
+# Capacitor native platforms ARE committed so Ionic Appflow can build them
+# (Appflow runs `cap sync` against these — it does not run `cap add`).
+# Build artifacts inside them are ignored by android/.gitignore and ios/.gitignore.
 
 # Logs
 npm-debug.log*
