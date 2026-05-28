@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 *.local
+*.tsbuildinfo
 
 # Capacitor native platforms (generated via `npx cap add android|ios`)
 # Keep them out of the JS repo; the wrapper tool / EAS regenerates them.
