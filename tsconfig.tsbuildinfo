@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/calculator.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/lib/api.ts","./src/lib/odds.ts","./capacitor.config.ts","./vite.config.ts"],"version":"5.9.3"}

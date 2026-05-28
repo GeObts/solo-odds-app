@@ -1,0 +1,553 @@
+/* ─── Solo Mining Odds — BasedMining brand styling ────────────────────────────
+   Replicates the look of basedmining.xyz/calculator without Tailwind: monospace
+   body, grid background, bordered cards, blue (light) / orange (dark) accent. */
+
+:root {
+  --bg: #f5f5f0;
+  --card: #ffffff;
+  --accent: #0000ff;
+  --accent-rgb: 0, 0, 255;
+  --fg: #000000;
+  --grid: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.2);
+  --border-soft: rgba(0, 0, 0, 0.1);
+
+  /* foreground opacity ramps */
+  --fg-70: rgba(0, 0, 0, 0.7);
+  --fg-60: rgba(0, 0, 0, 0.6);
+  --fg-50: rgba(0, 0, 0, 0.5);
+  --fg-40: rgba(0, 0, 0, 0.4);
+  --fg-30: rgba(0, 0, 0, 0.3);
+  --fg-15: rgba(0, 0, 0, 0.15);
+  --fg-10: rgba(0, 0, 0, 0.1);
+  --fg-05: rgba(0, 0, 0, 0.05);
+
+  --font-mono: 'SF Mono', 'Roboto Mono', ui-monospace, 'Menlo', 'Consolas', monospace;
+  --font-sans: -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --card: #0a0a0a;
+    --accent: #ff6a00;
+    --accent-rgb: 255, 106, 0;
+    --fg: #ffffff;
+    --grid: rgba(255, 255, 255, 0.06);
+    --border: rgba(255, 255, 255, 0.1);
+    --border-soft: rgba(255, 255, 255, 0.1);
+
+    --fg-70: rgba(255, 255, 255, 0.7);
+    --fg-60: rgba(255, 255, 255, 0.6);
+    --fg-50: rgba(255, 255, 255, 0.5);
+    --fg-40: rgba(255, 255, 255, 0.4);
+    --fg-30: rgba(255, 255, 255, 0.3);
+    --fg-15: rgba(255, 255, 255, 0.15);
+    --fg-10: rgba(255, 255, 255, 0.1);
+    --fg-05: rgba(255, 255, 255, 0.05);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Layout ──────────────────────────────────────────────────────────────── */
+.app {
+  position: relative;
+  min-height: 100vh;
+  /* respect notches / status bar on mobile */
+  padding: calc(env(safe-area-inset-top) + 24px) 16px
+    calc(env(safe-area-inset-bottom) + 40px);
+  overflow-x: hidden;
+}
+
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 120px 120px;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Typography helpers ──────────────────────────────────────────────────── */
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-40);
+}
+
+.label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-50);
+  margin-bottom: 6px;
+}
+
+.label-sm {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-40);
+  margin-bottom: 4px;
+}
+
+.sans {
+  font-family: var(--font-sans);
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.header h1 {
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-70);
+  font-weight: 400;
+}
+
+.live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #16a34a;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #22c55e;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ─── Cards ───────────────────────────────────────────────────────────────── */
+.card {
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 20px;
+}
+
+/* ─── Inputs ──────────────────────────────────────────────────────────────── */
+.text-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--fg);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.text-input::placeholder {
+  color: var(--fg-30);
+}
+.text-input:focus {
+  border-color: var(--accent);
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+.or-divider .rule {
+  flex: 1;
+  height: 1px;
+  background: var(--fg-15);
+}
+.or-divider span {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-30);
+}
+
+/* Hashrate + unit toggle */
+.hash-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.hash-row .num {
+  flex: 1 1 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: var(--font-mono);
+  color: var(--fg);
+  outline: none;
+}
+.hash-row .num:focus {
+  border-color: var(--accent);
+}
+.unit-btn {
+  flex: 1;
+  padding: 10px 4px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--border);
+  border-left: none;
+  background: transparent;
+  color: var(--fg-50);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.unit-btn:active {
+  background: var(--fg-05);
+}
+.unit-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* Slider */
+.slider-wrap {
+  margin-top: 16px;
+}
+input[type='range'] {
+  width: 100%;
+  height: 4px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.slider-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--fg-30);
+  margin-top: 6px;
+}
+.slider-legend .mid {
+  color: var(--fg-50);
+}
+
+/* Primary button */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  margin-top: 16px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-primary:active {
+  opacity: 0.85;
+}
+
+.btn-outline {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-outline:active {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-outline:disabled {
+  opacity: 0.5;
+}
+
+/* ─── Result card ─────────────────────────────────────────────────────────── */
+.odds-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  height: 120px;
+}
+.odds-row .in {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  line-height: 1;
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+.odds-row .num {
+  font-family: var(--font-sans);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  min-width: 0;
+}
+
+.subbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--fg-10);
+  margin-top: 16px;
+}
+.subbox {
+  padding: 16px;
+}
+.subbox.divider {
+  border-right: 1px solid var(--fg-10);
+}
+.subbox .big {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Jackpot meter ───────────────────────────────────────────────────────── */
+.meter-track {
+  position: relative;
+  height: 12px;
+  background: var(--fg-10);
+  margin-bottom: 12px;
+}
+.meter-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.7s ease;
+}
+.meter-marker {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: rgba(var(--accent-rgb), 0.6);
+}
+.meter-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--fg-30);
+  margin-bottom: 8px;
+}
+.meter-note {
+  font-size: 10px;
+  color: var(--fg-50);
+}
+.meter-note .accent {
+  color: var(--accent);
+}
+
+/* ─── Stat grids (network / pool / simulator) ─────────────────────────────── */
+.stat-grid {
+  display: grid;
+  border: 1px solid var(--fg-10);
+}
+.stat-grid.cols-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.stat-grid.cols-2 {
+  grid-template-columns: 1fr 1fr;
+}
+.stat-grid.no-top {
+  border-top: none;
+}
+.stat-cell {
+  padding: 12px;
+  border-right: 1px solid var(--fg-10);
+}
+.stat-cell:last-child {
+  border-right: none;
+}
+.stat-cell .val {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+}
+.stat-cell .sub {
+  font-size: 9px;
+  color: var(--fg-40);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.section-head .sq {
+  width: 8px;
+  height: 8px;
+}
+.section-head .sq.green {
+  background: #22c55e;
+}
+.section-head .sq.accent {
+  background: var(--accent);
+}
+.section-head p {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-50);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 640px) {
+  .two-col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ─── Simulator chart ─────────────────────────────────────────────────────── */
+.sim-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 64px;
+  border-bottom: 1px solid var(--fg-15);
+}
+.sim-bar {
+  flex: 1;
+  min-height: 2px;
+  transition: height 0.3s;
+}
+.chart-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--fg-30);
+  margin-top: 4px;
+}
+
+/* ─── Live miners heat map ────────────────────────────────────────────────── */
+.heat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.heat-cell {
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+}
+.miners-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+.miners-line .muted {
+  font-size: 10px;
+  color: var(--fg-30);
+}
+
+/* ─── Share row ───────────────────────────────────────────────────────────── */
+.share-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border);
+}
+.share-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 4px;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg-60);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.share-btn:last-child {
+  border-right: none;
+}
+.share-btn:active {
+  background: var(--fg-05);
+  color: var(--fg);
+}
+.share-btn span {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+.mb-8 {
+  margin-bottom: 8px;
+}
+.mb-12 {
+  margin-bottom: 12px;
+}
