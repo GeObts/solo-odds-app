@@ -65,4 +65,9 @@ await solid({ size: 1024, bg: BLACK, out: 'icon-background.png' });
 await compose({ size: 2732, frac: 0.22, bg: CREAM, out: 'splash.png' });
 await compose({ size: 2732, frac: 0.22, bg: BLACK, out: 'splash-dark.png' });
 
+// In-app header logo: transparent orange mark, trimmed, served from public/.
+mkdirSync('public', { recursive: true });
+await (await transparentMark()).resize(512, 512, { fit: 'inside' }).png().toFile('public/logo.png');
+console.log('wrote public/logo.png (transparent mark)');
+
 console.log('done.');

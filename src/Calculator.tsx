@@ -43,6 +43,26 @@ export default function Calculator() {
   const [simRunning, setSimRunning] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  // Theme — defaults to dark; user can switch to light (persisted).
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    try {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+    } catch {
+      /* ignore */
+    }
+    return 'dark';
+  });
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch {
+      /* ignore */
+    }
+  }, [theme]);
+  const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+
   // Auto-scaling odds number
   const [oddsFontSize, setOddsFontSize] = useState(96);
   const oddsRowRef = useRef<HTMLDivElement>(null);
@@ -225,13 +245,36 @@ export default function Calculator() {
       <div className="container">
         {/* ── Header ── */}
         <div className="header">
-          <div>
-            <p className="eyebrow mb-8">BasedMining</p>
-            <h1>Solo Mining Odds Calculator</h1>
+          <div className="brand">
+            <img className="logo" src="logo.png" alt="BasedMining" />
+            <div>
+              <p className="eyebrow mb-8">BasedMining</p>
+              <h1>Solo Mining Odds Calculator</h1>
+            </div>
           </div>
-          <div className="live">
-            <span className="dot" />
-            <span>Live</span>
+          <div className="header-right">
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? (
+                // sun → tap for light
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                </svg>
+              ) : (
+                // moon → tap for dark
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </button>
+            <div className="live">
+              <span className="dot" />
+              <span>Live</span>
+            </div>
           </div>
         </div>
 
@@ -529,6 +572,16 @@ export default function Calculator() {
                       {dataLoaded ? ((liveData.pool?.block_count ?? 0) > 0 ? 'Found' : '—') : '—'}
                     </p>
                   </div>
+                </div>
+                <div className="pool-link-wrap">
+                  <a
+                    className="pool-link"
+                    href="https://basedmining.xyz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    The next gen solo pool! →
+                  </a>
                 </div>
               </div>
             </div>
