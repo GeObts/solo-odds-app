@@ -26,3 +26,7 @@ Thumbs.db
 # Env
 .env
 .env.local
+
+# Signing keystores — NEVER commit these
+*.jks
+*.keystore
