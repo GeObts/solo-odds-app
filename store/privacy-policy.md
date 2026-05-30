@@ -39,4 +39,4 @@ We may update this policy from time to time. Material changes will be reflected
 by the "Last updated" date above.
 
 ## Contact
-Questions about this policy? Email **thebeansbot@gmail.com**.
+Questions about this policy? Email **hello@basedmining.xyz**.

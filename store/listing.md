@@ -37,7 +37,7 @@ Tools
 bitcoin, mining, solo mining, hashrate, odds, calculator, BTC, difficulty, pool
 
 ## Contact email
-thebeansbot@gmail.com
+hello@basedmining.xyz
 
 ## Website
 https://basedmining.xyz

@@ -58,5 +58,5 @@ does: a calculator that collects nothing, has no ads, and handles no money.
 
 ## Store settings
 - App category: **Tools**
-- Email: thebeansbot@gmail.com
+- Email: hello@basedmining.xyz
 - Website: https://basedmining.xyz
